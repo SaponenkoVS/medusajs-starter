@@ -66,6 +66,32 @@
 - Storefront build: `cd medusa-store/apps/storefront && npm run build`.
 - Workspace build: `cd medusa-store && npm run build`.
 
+## Test Specification
+
+- Match tests to the layer changed:
+  - Modules and services: use backend module integration tests for CRUD behavior, service contracts, migrations, and module isolation.
+  - Workflow steps and pure helpers: use backend unit tests for branching, validation, transforms, rollback inputs, and error cases.
+  - Full workflows: use integration tests that execute the workflow through Medusa's container and assert created/updated records plus rollback-relevant failures.
+  - API routes and middleware: use backend HTTP integration tests for status codes, auth, validation, response shape, and side effects.
+  - Admin extensions: verify with build plus focused tests or mocks when the repo has UI test infrastructure; always cover SDK calls, loading state, error state, and mutation invalidation in review.
+  - Storefront changes: verify with build and, when test infrastructure exists, component or integration tests for user-visible states, SDK calls, loading/error states, and cart/checkout/product behavior.
+- Minimum test cases by change type:
+  - Pure helper or workflow step: at least 3 cases: success, invalid input, and edge/boundary behavior.
+  - API route: at least 4 cases: success, validation failure, auth/permission failure when protected, and not-found or empty-result behavior.
+  - Module or data model change: at least 4 cases: create, read/list, update/delete if supported, and constraint or invalid-data behavior.
+  - Workflow mutation: at least 4 cases: success path, validation/business-rule failure, missing dependency or not-found failure, and rollback/compensation-sensitive behavior when applicable.
+  - Admin or storefront UI feature: at least 4 user-facing states: loading, empty, success/populated, and error; include disabled/pending state for mutations.
+  - Bug fix: add at least 1 regression test that fails before the fix and passes after; add surrounding cases only where the touched logic has meaningful branches.
+- Test data rules:
+  - Use factories, seed helpers, or Medusa test utilities where available. Avoid hardcoded IDs unless the test creates them.
+  - Assert persisted database state for mutations, not only HTTP responses.
+  - Assert response shapes that clients rely on, but avoid brittle snapshots for large Medusa objects.
+  - Include price assertions whenever price fields are touched, and assert Medusa's as-is price format without cent conversion.
+- Test execution rules:
+  - Run the narrowest relevant test command first, then `npm run build` for the changed app.
+  - Run `make -C .harness harness` before marking harness-level work complete.
+  - If a required test cannot run because of an existing unrelated blocker, record the command, failure, and blocker in `.harness/progress.md` and keep the feature out of `completed`.
+
 ## Definition Of Done
 
 A feature is done only when the scoped requirement is implemented, relevant verification passes or the failure is explicitly recorded, `.harness/progress.md` contains evidence, `.harness/feature_list.json` reflects the final status, and `.harness/session-handoff.md` is restartable.
