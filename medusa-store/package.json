@@ -29,7 +29,5 @@
     "apps/**",
     "!apps/backend/.medusa/**"
   ],
-  "overrides": {
-    "ajv": "^8.0.0"
-  }
+  "overrides": {}
 }

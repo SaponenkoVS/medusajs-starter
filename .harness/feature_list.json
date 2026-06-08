@@ -1,3 +1,20 @@
 {
-  "features": []
+  "features": [
+    {
+      "id": "medusa-agent-guidance",
+      "name": "Medusa agent guidance and harness alignment",
+      "status": "blocked",
+      "dependencies": [],
+      "done_criteria": [
+        "AGENTS.md documents Medusa architecture, routing, SDK, data access, workflow, testing, and harness practices.",
+        ".harness/init.sh runs from the harness directory and resolves the repository root correctly.",
+        ".harness/progress.md and .harness/session-handoff.md describe the current source of truth and verification evidence."
+      ],
+      "verification": {
+        "command": "make -C .harness harness",
+        "status": "failed",
+        "summary": "Harness starts from .harness successfully, then fails during npm run lint because @dtc/storefront next lint exits with NOT SUPPORTED: option missingRefs and Cannot set properties of undefined (setting 'defaultMeta')."
+      }
+    }
+  ]
 }
