@@ -7,7 +7,7 @@ REPO_ROOT="$(cd "$HARNESS_DIR/.." && pwd)"
 echo "=== Harness Verification ==="
 
 echo "=== npm run lint ==="
-cd "$REPO_ROOT/medusa-store"
+cd "$REPO_ROOT"
 npm run lint
 
 echo "=== backend unit tests ==="
