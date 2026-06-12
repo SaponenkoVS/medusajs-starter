@@ -1,3 +1,4 @@
+import type { StoreProductProducerResponse } from "@lib/data/producers"
 import React, { Suspense } from "react"
 
 import ImageGallery from "@modules/products/components/image-gallery"
@@ -14,6 +15,7 @@ import ProductActionsWrapper from "./product-actions-wrapper"
 
 type ProductTemplateProps = {
   product: HttpTypes.StoreProduct
+  producer: StoreProductProducerResponse["producer"]
   region: HttpTypes.StoreRegion
   countryCode: string
   images: HttpTypes.StoreProductImage[]
@@ -21,6 +23,7 @@ type ProductTemplateProps = {
 
 const ProductTemplate: React.FC<ProductTemplateProps> = ({
   product,
+  producer,
   region,
   countryCode,
   images,
@@ -36,7 +39,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         data-testid="product-container"
       >
         <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-6">
-          <ProductInfo product={product} />
+          <ProductInfo product={product} producer={producer} />
           <ProductTabs product={product} />
         </div>
         <div className="block w-full relative">

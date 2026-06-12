@@ -15,6 +15,23 @@
         "status": "completed",
         "summary": "Harness ends from .harness successfully,"
       }
+    },
+    {
+      "id": "producer-management",
+      "name": "Producer management",
+      "status": "blocked",
+      "dependencies": [],
+      "done_criteria": [
+        "Admins can create, edit, list, and delete producers through the custom Medusa admin route and UI.",
+        "Admins can assign, replace, and clear a single producer on a product detail page with persisted display state.",
+        "Storefront shoppers can view producer details on product pages and browse producer listing/detail pages backed by Medusa custom store routes.",
+        "Relevant backend tests, backend build, storefront build, and harness verification evidence are recorded with any external blockers explicitly noted."
+      ],
+      "verification": {
+        "command": "source ~/.nvm/nvm.sh && nvm use 22 >/dev/null && make -C .harness harness",
+        "status": "blocked",
+        "summary": "Producer feature implementation and targeted verification passed, but the shared harness is blocked by pre-existing storefront lint errors outside the producer scope."
+      }
     }
   ]
 }

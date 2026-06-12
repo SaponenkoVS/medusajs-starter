@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { listProducts } from "@lib/data/products"
+import { getProductProducer } from "@lib/data/producers"
 import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
 import { HttpTypes } from "@medusajs/types"
@@ -113,6 +114,10 @@ export default async function ProductPage(props: Props) {
     countryCode: params.countryCode,
     queryParams: { handle: params.handle },
   }).then(({ response }) => response.products[0])
+  const producerResponse = await getProductProducer({
+    countryCode: params.countryCode,
+    handle: params.handle,
+  })
 
   const images = getImagesForVariant(pricedProduct, selectedVariantId)
 
@@ -123,6 +128,7 @@ export default async function ProductPage(props: Props) {
   return (
     <ProductTemplate
       product={pricedProduct}
+      producer={producerResponse.producer}
       region={region}
       countryCode={params.countryCode}
       images={images ?? []}

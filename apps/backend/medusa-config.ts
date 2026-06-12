@@ -13,5 +13,10 @@ module.exports = defineConfig({
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
     },
     redisUrl: process.env.REDIS_URL,
-  }
+  },
+  modules: [
+    {
+      resolve: "./src/modules/producer",
+    },
+  ],
 })
